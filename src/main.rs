@@ -25,6 +25,10 @@ pub async fn healthz() -> web::Json<HealthStatus> {
     web::Json(HealthStatus{status: HealthState::Up})
 }
 
+pub async fn root() -> web::Json<HealthStatus> {
+    web::Json(HealthStatus{status: HealthState::Up})
+}
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -53,6 +57,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .service(web::resource("/{id}/{name}/index.html").route(web::get().to(index)))
             .service(web::resource("/healthz").route(web::get().to(healthz)))
+            .service(web::resource("/").route(web::get().to(root)))
      
     })
     // .bind(cli_options.bind)?
