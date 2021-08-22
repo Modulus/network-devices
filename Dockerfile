@@ -16,19 +16,19 @@ RUN cargo build --release
 
 # FROM gcr.io/distroless/cc
 
-FROM gcr.io/distroless/static-debian10
+# FROM scratch
+FROM gcr.io/distroless/static-debian11
 
 
 # ENV APP_FOLDER=/opt/app
 
 ENV APP_FOLDER=/opt/app
-# RUN useradd app && mkdir -p "${APP_FOLDER}" && chown -R app:app "${APP_FOLDER}"
 WORKDIR /opt
 
 
 # USER app
 # COPY --chown=app --from="builder" "${APP_FOLDER}/target/release/shotlog" .
-COPY --from="builder" "${APP_FOLDER}/target/release/shotlog" .
+COPY --from="builder" "${APP_FOLDER}/target/release/network-devices" .
 
 EXPOSE 8080
-CMD "/opt/shotlog" "--bind" ${BIND}"--level" ${RUST_LOG}
+CMD "/opt/network-devices" "--bind" ${BIND}"--level" ${RUST_LOG}
