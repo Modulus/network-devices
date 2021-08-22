@@ -20,6 +20,15 @@ pub enum HealthState {
     Up,
     // Down, // Not in use yet
 }
+
+#[derive(Serialize)]
+pub struct Device {
+    name: String,
+    domain: String,
+    address: String,
+    icon: String,
+    comment: String
+}
                                                                                                                         
 pub async fn healthz() -> web::Json<HealthStatus> {
     web::Json(HealthStatus{status: HealthState::Up})
@@ -27,4 +36,17 @@ pub async fn healthz() -> web::Json<HealthStatus> {
 
 pub async fn root() -> web::Json<HealthStatus> {
     web::Json(HealthStatus{status: HealthState::Up})
+}
+
+pub async fn get_devices()  -> web::Json<Vec<Device>> {
+    let mut devices =  Vec::new();
+    devices.push(Device{
+        name: String::from("Plex"),
+        domain: String::from("plex.local"),
+        address: String::from("10.0.0.103"),
+        icon: String::from("NA"),
+        comment: String::from("Media")
+    });
+
+    web::Json(devices)
 }

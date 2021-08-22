@@ -40,6 +40,7 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/{id}/{name}/index.html").route(web::get().to(site::index)))
             .service(web::resource("/healthz").route(web::get().to(site::healthz)))
             .service(web::resource("/").route(web::get().to(site::root)))
+            .service(web::resource("/device").route(web::get().to(site::get_devices)))
      
     })
     // .bind(cli_options.bind)?
