@@ -4,30 +4,8 @@ use actix_web::{web, Responder};
 use actix_web::middleware::Logger;
 use structopt::StructOpt;
 use env_logger::Env;
-
-
-async fn index(web::Path((id, name)): web::Path<(u32, String)>) -> impl Responder {
-    format!("Hello {}! id:{}", name, id)
-}
-
-#[derive(Serialize)]
-pub struct HealthStatus {
-    status: HealthState,
-}
-                                                                                                                        
-#[derive(Serialize)]
-enum HealthState {
-    Up,
-    // Down, // Not in use yet
-}
-                                                                                                                        
-pub async fn healthz() -> web::Json<HealthStatus> {
-    web::Json(HealthStatus{status: HealthState::Up})
-}
-
-pub async fn root() -> web::Json<HealthStatus> {
-    web::Json(HealthStatus{status: HealthState::Up})
-}
+use sqlx::postgres::PgPoolOptions;
+pub mod site;
 
 
 #[actix_web::main]
@@ -38,6 +16,10 @@ async fn main() -> std::io::Result<()> {
 
     // env_logger::Builder::from_env(Env::default().default_filter_or(cli_options.level)).init();
     env_logger::Builder::from_env(Env::default().default_filter_or("INFO")).init();
+
+    // let pool = PgPoolOptions::new()
+    // .max_connections(5)
+    // .connect("postgres://net:net@localhost/net").await?;
 
 
     // dotenv().ok();
@@ -55,9 +37,9 @@ async fn main() -> std::io::Result<()> {
             actix_web::App::new()
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
-            .service(web::resource("/{id}/{name}/index.html").route(web::get().to(index)))
-            .service(web::resource("/healthz").route(web::get().to(healthz)))
-            .service(web::resource("/").route(web::get().to(root)))
+            .service(web::resource("/{id}/{name}/index.html").route(web::get().to(site::index)))
+            .service(web::resource("/healthz").route(web::get().to(site::healthz)))
+            .service(web::resource("/").route(web::get().to(site::root)))
      
     })
     // .bind(cli_options.bind)?

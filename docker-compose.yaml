@@ -18,9 +18,9 @@ services:
     networks: 
       - network_devices       
     environment:
-      POSTGRES_PASSWORD: shot
-      POSTGRES_USER: shot
-      POSTGRES_DB: shot
+      POSTGRES_PASSWORD: net
+      POSTGRES_USER: net
+      POSTGRES_DB: net
   adminer:
     image: adminer:4
     ports:
