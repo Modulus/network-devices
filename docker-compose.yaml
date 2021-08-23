@@ -13,8 +13,8 @@ services:
     image: postgres:13
     ports:
       - "5432:5432"
-    # volumes:
-    #   - postgresvolume01:/var/lib/postgresql/data
+    volumes:
+      - net_postgresvolume01:/var/lib/postgresql/data
     networks: 
       - network_devices       
     environment:
@@ -31,12 +31,12 @@ services:
     image: redis:6.2.2
     ports:
       - "6379:6379"
-    # volumes:
-    #   - redisvolume01:/data
+    volumes:
+      - net_redisvolume01:/data
     networks: 
       - network_devices      
-# volumes:
-#   redisvolume01: {}
-#   postgresvolume01: {}
+volumes:
+  net_redisvolume01: {}
+  net_postgresvolume01: {}
 networks:
   network_devices: {}

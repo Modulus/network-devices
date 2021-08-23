@@ -32,17 +32,16 @@ async fn main() -> std::io::Result<()> {
     // println!("Serving on {}", cli_options.bind);
     println!("Serving on {}", "127.0.0.1:8080");
     actix_web::HttpServer::new(move || {
-        actix_web::App::new().data(pool.clone())
+        actix_web::App::new().app_data(pool.clone())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
-            .service(web::resource("/{id}/{name}/index.html").route(web::get().to(site::index)))
             .service(web::resource("/healthz").route(web::get().to(site::healthz)))
             .service(web::resource("/").route(web::get().to(site::root)))
             .configure(site::init)
             // .service(web::resource("/device").route(web::get().to(site::get_devices)))
     })
     // .bind(cli_options.bind)?
-    .bind("127.0.0.1:8080")?
+    .bind("127.0.0.1:3000")?
     .run()
     .await
 }
