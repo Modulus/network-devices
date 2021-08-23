@@ -17,9 +17,9 @@ async fn main() -> std::io::Result<()> {
     // env_logger::Builder::from_env(Env::default().default_filter_or(cli_options.level)).init();
     env_logger::Builder::from_env(Env::default().default_filter_or("INFO")).init();
 
-    // let pool = PgPoolOptions::new()
-    // .max_connections(5)
-    // .connect("postgres://net:net@localhost/net").await?;
+    let pool = PgPoolOptions::new()
+    .max_connections(5)
+    .connect("postgres://net:net@localhost/net").await.expect("Failed to create database pool");
 
 
     // dotenv().ok();
@@ -31,17 +31,15 @@ async fn main() -> std::io::Result<()> {
 
     // println!("Serving on {}", cli_options.bind);
     println!("Serving on {}", "127.0.0.1:8080");
-    actix_web::HttpServer::new(|| {
-        // actix_web::App::new().data(Pool::builder().max_size(1).build(ConnectionManager::<PgConnection>::new(env::var("DATABASE_URL")
-        // .expect("DATABASE_URL must be set"))).expect("Failed to create pool"))
-            actix_web::App::new()
+    actix_web::HttpServer::new(move || {
+        actix_web::App::new().data(pool.clone())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             .service(web::resource("/{id}/{name}/index.html").route(web::get().to(site::index)))
             .service(web::resource("/healthz").route(web::get().to(site::healthz)))
             .service(web::resource("/").route(web::get().to(site::root)))
-            .service(web::resource("/device").route(web::get().to(site::get_devices)))
-     
+            .configure(site::init)
+            // .service(web::resource("/device").route(web::get().to(site::get_devices)))
     })
     // .bind(cli_options.bind)?
     .bind("127.0.0.1:8080")?

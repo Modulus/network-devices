@@ -25,7 +25,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "177837a10863f15ba8d3ae3ec12fac1099099529ed20083a27fdfe247381d0dc"
 dependencies = [
  "actix-codec",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-service",
  "actix-utils",
  "derive_more",
@@ -45,7 +45,7 @@ checksum = "5cb8958da437716f3f31b0e76f8daf36554128517d7df37ceba7df00f09622ee"
 dependencies = [
  "actix-codec",
  "actix-connect",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-service",
  "actix-threadpool",
  "actix-utils",
@@ -123,23 +123,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "actix-rt"
-version = "2.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc7d7cd957c9ed92288a7c3c96af81fa5291f65247a76a34dac7b6af74e52ba0"
-dependencies = [
- "futures-core",
- "tokio 1.10.0",
-]
-
-[[package]]
 name = "actix-server"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "45407e6e672ca24784baa667c5d32ef109ccdd8d5e0b5ebb9ef8a67f4dfb708e"
 dependencies = [
  "actix-codec",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-service",
  "actix-utils",
  "futures-channel",
@@ -169,7 +159,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "47239ca38799ab74ee6a8a94d1ce857014b2ac36f242f70f3f75a66f691e791c"
 dependencies = [
  "actix-macros",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-server",
  "actix-service",
  "log",
@@ -210,7 +200,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2e9022dec56632d1d7979e59af14f0597a28a830a9c1c7fec8b2327eb9f16b5a"
 dependencies = [
  "actix-codec",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-service",
  "bitflags",
  "bytes 0.5.6",
@@ -233,7 +223,7 @@ dependencies = [
  "actix-http",
  "actix-macros",
  "actix-router",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-server",
  "actix-service",
  "actix-testing",
@@ -359,7 +349,7 @@ checksum = "b381e490e7b0cfc37ebc54079b0413d8093ef43d14a4e4747083f7fa47a9e691"
 dependencies = [
  "actix-codec",
  "actix-http",
- "actix-rt 1.1.1",
+ "actix-rt",
  "actix-service",
  "base64",
  "bytes 0.5.6",
@@ -1942,7 +1932,6 @@ version = "0.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "14302b678d9c76b28f2e60115211e25e0aabc938269991745a169753dc00e35c"
 dependencies = [
- "actix-rt 2.2.0",
  "once_cell",
  "tokio 1.10.0",
  "tokio-rustls",
@@ -2207,10 +2196,7 @@ dependencies = [
  "memchr",
  "mio 0.7.13",
  "num_cpus",
- "once_cell",
- "parking_lot",
  "pin-project-lite 0.2.7",
- "signal-hook-registry",
  "winapi 0.3.9",
 ]
 

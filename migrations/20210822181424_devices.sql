@@ -1,5 +1,4 @@
 -- Add migration script here
-create DATABASE devices;
 
 create table devices(
     name varchar primary key,
