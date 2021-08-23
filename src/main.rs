@@ -32,7 +32,7 @@ async fn main() -> std::io::Result<()> {
     // println!("Serving on {}", cli_options.bind);
     println!("Serving on {}", "127.0.0.1:8080");
     actix_web::HttpServer::new(move || {
-        actix_web::App::new().app_data(pool.clone())
+        actix_web::App::new().data(pool.clone())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             .service(web::resource("/healthz").route(web::get().to(site::healthz)))
