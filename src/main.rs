@@ -30,7 +30,7 @@ async fn main() -> std::io::Result<()> {
     // println!("Serving on {}", cli_options.bind);
     println!("Serving on {}", "127.0.0.1:3000");
     actix_web::HttpServer::new(move || {
-        actix_web::App::new().app_data(pool.clone())
+        actix_web::App::new().data(pool.clone())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             // .service(web::resource("/{id}/{name}/index.html").route(web::get().to(site::index)))
@@ -43,4 +43,28 @@ async fn main() -> std::io::Result<()> {
     .bind("127.0.0.1:3000")?
     .run()
     .await
+}
+
+
+#[cfg(test)]
+mod tests {
+    use crate::site::add_device;
+
+    use super::*;
+    use actix_web::{http, test};
+
+    #[actix_rt::test]
+    async fn test_index_ok() {
+        // let req = test::TestRequest::with_header("content-type", "text/plain").to_http_request();
+        let req = test::TestRequest::set_json(data);
+        let resp = add_device(req).await;
+        assert_eq!(resp.status(), http::StatusCode::OK);
+    }
+
+    // #[actix_rt::test]
+    // async fn test_index_not_ok() {
+    //     let req = test::TestRequest::default().to_http_request();
+    //     let resp = index(req).await;
+    //     assert_eq!(resp.status(), http::StatusCode::BAD_REQUEST);
+    // }
 }

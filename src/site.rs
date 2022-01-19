@@ -85,6 +85,6 @@ pub async fn get_devices(pool: web::Data<PgPool>)   -> impl Responder {
 
 // function that will be called on new Application to configure routes for this module
 pub fn init(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_devices)
-    .service(add_device);
+    cfg.service(get_devices);
+    cfg.service(add_device);
 }
