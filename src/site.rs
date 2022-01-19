@@ -1,14 +1,8 @@
-use std::future::Ready;
 
-use actix_web::{HttpRequest, dev};
 use serde_derive::{Serialize, Deserialize};
 
-use actix_web::{web, Responder, web::Json, delete, get, post, put, HttpResponse};
-use actix_web::middleware::Logger;
-use sqlx::{PgPool, Postgres};
-use structopt::StructOpt;
-use env_logger::Env;
-use sqlx::postgres::PgPoolOptions;
+use actix_web::{web, Responder, web::Json, get, post, HttpResponse};
+use sqlx::PgPool;
 
 
 #[derive(Serialize)]
@@ -91,6 +85,6 @@ pub async fn get_devices(pool: web::Data<PgPool>)   -> impl Responder {
 
 // function that will be called on new Application to configure routes for this module
 pub fn init(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_devices);
-    cfg.service(add_device);
+    cfg.service(get_devices)
+    .service(add_device);
 }

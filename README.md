@@ -13,4 +13,4 @@ cargo install sqlx-cli
 sqlx database create
 sqlx database drop
 
-sql migrate run
+sqlx migrate run

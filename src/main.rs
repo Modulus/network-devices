@@ -1,8 +1,6 @@
-use serde_derive::Serialize;
 
-use actix_web::{web, Responder};
+use actix_web::{web};
 use actix_web::middleware::Logger;
-use structopt::StructOpt;
 use env_logger::Env;
 use sqlx::postgres::PgPoolOptions;
 pub mod site;
@@ -19,7 +17,7 @@ async fn main() -> std::io::Result<()> {
 
     let pool = PgPoolOptions::new()
     .max_connections(5)
-    .connect("postgres://net:net@localhost/net").await.expect("Failed to create database pool");
+    .connect("postgres://net:net@localhost/net?sslmode=disable").await.expect("Failed to create database pool");
 
 
     // dotenv().ok();
@@ -30,11 +28,12 @@ async fn main() -> std::io::Result<()> {
 
 
     // println!("Serving on {}", cli_options.bind);
-    println!("Serving on {}", "127.0.0.1:8080");
+    println!("Serving on {}", "127.0.0.1:3000");
     actix_web::HttpServer::new(move || {
-        actix_web::App::new().data(pool.clone())
+        actix_web::App::new().app_data(pool.clone())
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
+            // .service(web::resource("/{id}/{name}/index.html").route(web::get().to(site::index)))
             .service(web::resource("/healthz").route(web::get().to(site::healthz)))
             .service(web::resource("/").route(web::get().to(site::root)))
             .configure(site::init)
